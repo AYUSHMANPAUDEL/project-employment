@@ -1,5 +1,20 @@
-from django.shortcuts import render , HttpResponse
+from django.shortcuts import render , HttpResponse,redirect
+from django.contrib.auth import authenticate, login
 
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('home')  # Redirect to the home page after successful login
+        else:
+            # Handle invalid login credentials (you may want to show an error message)
+            pass
+
+    return render(request, 'login.html')
 # Create your views here.
 def index (requests):
     # context={
